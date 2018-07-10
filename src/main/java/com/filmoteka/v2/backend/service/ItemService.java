@@ -88,7 +88,6 @@ public class ItemService {
 
     private static String prepareDescription(List<String> list) {
         StringBuilder stringBuilder = new StringBuilder();
-
         int i = 0;
         for(String description : list) {
             if(i++ == list.size() - 1) {
