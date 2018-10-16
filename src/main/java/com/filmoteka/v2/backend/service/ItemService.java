@@ -2,6 +2,8 @@ package com.filmoteka.v2.backend.service;
 
 import com.filmoteka.v2.backend.filmwebApi.Caller;
 import com.filmoteka.v2.backend.model.Item;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,11 +14,15 @@ import java.util.List;
 
 import static org.apache.commons.lang3.math.NumberUtils.createInteger;
 
+@Service
 public class ItemService {
+
+    @Value("${filmweb-search}")
+    private static String filmwebSearch;
 
     public static List<Item> getAllItems(String value) {
         List<Item> items = new ArrayList<>();
-        List<String> itemDetails = new ArrayList<>();
+        List<String> itemDetails;
         String description;
         value = value.replace(" ", "+");
         try {
@@ -55,7 +61,7 @@ public class ItemService {
     private static String prepareContent(String value) {
         StringBuilder content = new StringBuilder();
         try {
-            URL url = new URL("https://www.filmweb.pl/search/live?q=" + value);
+            URL url = new URL(filmwebSearch + value);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
 
