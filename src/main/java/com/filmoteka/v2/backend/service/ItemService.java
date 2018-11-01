@@ -2,6 +2,8 @@ package com.filmoteka.v2.backend.service;
 
 import com.filmoteka.v2.backend.filmwebApi.Caller;
 import com.filmoteka.v2.backend.model.Item;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,9 +14,15 @@ import java.util.List;
 
 import static org.apache.commons.lang3.math.NumberUtils.createInteger;
 
+@Service
 public class ItemService {
 
-    public static List<Item> getAllItems(String value) {
+    @Value("${filmweb-link}")
+    private String filmWebSearchLink;
+
+    public ItemService(){}
+
+    public  List<Item> getAllItems(String value) {
         List<Item> items = new ArrayList<>();
         List<String> itemDetails = new ArrayList<>();
         String description;
@@ -52,10 +60,10 @@ public class ItemService {
         return items;
     }
 
-    private static String prepareContent(String value) {
+    private  String prepareContent(String value) {
         StringBuilder content = new StringBuilder();
         try {
-            URL url = new URL("https://www.filmweb.pl/search/live?q=" + value);
+            URL url = new URL(filmWebSearchLink + value);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
 
@@ -72,7 +80,7 @@ public class ItemService {
         return content.toString();
     }
 
-    private static String preparePhotoUrl(String photo, String imageSize) {
+    private  String preparePhotoUrl(String photo, String imageSize) {
         if(photo != null) {
             StringBuilder image = new StringBuilder();
             String[] imageParts;
@@ -86,7 +94,7 @@ public class ItemService {
         return null;
     }
 
-    private static String prepareDescription(List<String> list) {
+    private  String prepareDescription(List<String> list) {
         StringBuilder stringBuilder = new StringBuilder();
         int i = 0;
         for(String description : list) {
