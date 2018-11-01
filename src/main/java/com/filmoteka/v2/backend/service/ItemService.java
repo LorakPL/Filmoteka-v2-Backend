@@ -17,25 +17,28 @@ import static org.apache.commons.lang3.math.NumberUtils.createInteger;
 @Service
 public class ItemService {
 
+
     @Value("${filmweb-link}")
     private String filmWebSearchLink;
 
-    public ItemService(){}
+    public ItemService() {
+    }
 
     public  List<Item> getAllItems(String value) {
+
         List<Item> items = new ArrayList<>();
-        List<String> itemDetails = new ArrayList<>();
+        List<String> itemDetails;
         String description;
         value = value.replace(" ", "+");
         try {
             String[] contentParts = prepareContent(value).split("\\\\a");
 
-            for(String tmp : contentParts) {
+            for (String tmp : contentParts) {
                 String[] parts = tmp.split("\\\\c");
-                if(parts[0].equals("f") || parts[0].equals("s")) {
-                    itemDetails = Caller.getItems("getFilmInfoFull ["+ Long.parseLong(parts[1]) +"]", "GET");
-                    description = prepareDescription(Caller.getItems("getFilmDescription ["+ Long.parseLong(parts[1]) +"]", "GET"));
-                    if(parts.length == 7) {
+                if (parts[0].equals("f") || parts[0].equals("s")) {
+                    itemDetails = Caller.getItems("getFilmInfoFull [" + Long.parseLong(parts[1]) + "]", "GET");
+                    description = prepareDescription(Caller.getItems("getFilmDescription [" + Long.parseLong(parts[1]) + "]", "GET"));
+                    if (parts.length == 7) {
                         items.add(new Item(Long.parseLong(parts[1]), itemDetails.get(1), itemDetails.get(0), preparePhotoUrl(parts[2], "0"),
                                 preparePhotoUrl(parts[2], "1"), preparePhotoUrl(parts[2], "2"),
                                 preparePhotoUrl(parts[2], "3"), preparePhotoUrl(parts[2], "4"),
@@ -60,10 +63,12 @@ public class ItemService {
         return items;
     }
 
-    private  String prepareContent(String value) {
+
+    private String prepareContent(String value) {
         StringBuilder content = new StringBuilder();
         try {
             URL url = new URL(filmWebSearchLink + value);
+
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
 
@@ -80,8 +85,8 @@ public class ItemService {
         return content.toString();
     }
 
-    private  String preparePhotoUrl(String photo, String imageSize) {
-        if(photo != null) {
+    private String preparePhotoUrl(String photo, String imageSize) {
+        if (photo != null) {
             StringBuilder image = new StringBuilder();
             String[] imageParts;
 
@@ -94,11 +99,11 @@ public class ItemService {
         return null;
     }
 
-    private  String prepareDescription(List<String> list) {
+    private String prepareDescription(List<String> list) {
         StringBuilder stringBuilder = new StringBuilder();
         int i = 0;
-        for(String description : list) {
-            if(i++ == list.size() - 1) {
+        for (String description : list) {
+            if (i++ == list.size() - 1) {
                 stringBuilder.append(description);
             } else {
                 stringBuilder.append(description);
@@ -109,9 +114,9 @@ public class ItemService {
     }
 
     private static String getType(String type) {
-        if(type.equals("f")) {
+        if (type.equals("f")) {
             return "Movie";
-        } else if(type.equals("s")) {
+        } else if (type.equals("s")) {
             return "Series";
         }
         return "";

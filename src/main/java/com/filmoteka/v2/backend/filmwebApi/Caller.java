@@ -26,12 +26,9 @@ public class Caller {
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
 
             String str;
-            String stateStr = br.readLine();
             while ((str = br.readLine()) != null) {
                 html.append(str);
             }
-            br.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,8 +62,8 @@ public class Caller {
     private static <T> T analyze(String response) {
         JsonStreamParser parser = new JsonStreamParser(response);
         if (parser.hasNext()) {
-            JsonElement reposnse = parser.next();
-            return getData(reposnse);
+            JsonElement r = parser.next();
+            return getData(r);
         }
         return null;
     }
@@ -77,10 +74,9 @@ public class Caller {
             List<T> data = new ArrayList<>();
             JsonArray ja = element.getAsJsonArray();
             for (JsonElement e : ja) {
-                data.add((T) getData(e));
+                data.add(getData(e));
             }
             return (T) data;
-        }
-        else return (T) element.getAsString();
+        } else return (T) element.getAsString();
     }
 }
