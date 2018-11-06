@@ -18,7 +18,7 @@ import static org.apache.commons.lang3.math.NumberUtils.createInteger;
 public class ItemService {
 
 
-    @Value("${filmweb-link}")
+    @Value("${filmweb-search}")
     private String filmWebSearchLink;
 
     public ItemService() {
