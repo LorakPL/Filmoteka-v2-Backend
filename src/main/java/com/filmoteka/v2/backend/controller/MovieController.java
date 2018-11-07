@@ -17,7 +17,7 @@ import java.util.List;
 
 @RequestMapping("/api")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//  @CrossOrigin(origins = "http://localhost:4200")
 @Api(value = "/api", description = "movie operations")
 public class MovieController {
 
@@ -33,7 +33,7 @@ public class MovieController {
         this.movieDbService = movieDbService;
     }
 
-    @RequestMapping(value = "getAllItems/{value}", method = RequestMethod.GET)
+    @RequestMapping(value = "getAllIutems/{value}", method = RequestMethod.GET)
     public ResponseEntity<List<Item>> getItems(@PathVariable("value") String value) {
         List<Item> elements = itemService.getAllItems(value);
         return new ResponseEntity<>(elements, new HttpHeaders(), HttpStatus.OK);
