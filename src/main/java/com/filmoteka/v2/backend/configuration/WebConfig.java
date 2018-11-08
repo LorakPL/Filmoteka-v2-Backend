@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-    //TODO this is deprecated - will be changed when spring security will be introduced     
+    //TODO this is deprecated - will be changed when spring security will be introduced
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
