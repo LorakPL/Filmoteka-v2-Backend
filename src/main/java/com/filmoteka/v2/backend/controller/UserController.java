@@ -4,21 +4,17 @@ package com.filmoteka.v2.backend.controller;
 import com.filmoteka.v2.backend.model.ApplicationUser;
 import com.filmoteka.v2.backend.repository.ApplicationUserRepository;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
-@EnableJpaRepositories
-
-
 @Api(value = "/users", description = "users operations")
 public class UserController {
+
 
 
     private ApplicationUserRepository applicationUserRepository;
@@ -26,7 +22,7 @@ public class UserController {
 
 
     public UserController(ApplicationUserRepository applicationUserRepository,
-                          BCryptPasswordEncoder bCryptPasswordEncoder) {
+            BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.applicationUserRepository = applicationUserRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -36,4 +32,5 @@ public class UserController {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         applicationUserRepository.save(user);
     }
+
 }

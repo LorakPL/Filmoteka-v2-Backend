@@ -6,6 +6,8 @@ import com.filmoteka.v2.backend.service.MovieDbService;
 import info.movito.themoviedbapi.TmdbAccount;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.annotations.Api;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +35,7 @@ public class MovieController {
         this.movieDbService = movieDbService;
     }
 
+    @ApiOperation(value = "", authorizations = { @Authorization(value="apiKey") })
     @RequestMapping(value = "getAllIutems/{value}", method = RequestMethod.GET)
     public ResponseEntity<List<Item>> getItems(@PathVariable("value") String value) {
         List<Item> elements = itemService.getAllItems(value);
@@ -40,6 +43,7 @@ public class MovieController {
 
     }
 
+    @ApiOperation(value = "", authorizations = { @Authorization(value="apiKey") })
     @RequestMapping(value = "films/{title}", method = RequestMethod.GET)
     public ResponseEntity<List<MovieDb>> getMovieDbFilms(@PathVariable("title") String title) {
         List<MovieDb> films = movieDbService.getMovies(title, "pl");
