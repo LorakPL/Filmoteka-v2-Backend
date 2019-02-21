@@ -33,7 +33,6 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Filmoteka")
-
                 .version("1.0")
                 .build();
     }
